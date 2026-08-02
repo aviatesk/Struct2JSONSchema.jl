@@ -66,10 +66,15 @@ end
     include("default_values.jl")
 end
 
-@static if Sys.which("python3") !== nothing || Sys.which("python") !== nothing
+include("find_python_validator.jl")
+if isempty(find_python_validator())
+    if get(ENV, "CI", "") == "true"
+        error("Python with jsonschema is required in CI. Run `python3 -m pip install jsonschema`.")
+    end
+    @warn "Python with jsonschema not found; skipping python validator tests" install =
+        "python3 -m pip install jsonschema"
+else
     @testset "python validator" begin
         include("pyvalidtest.jl")
     end
-else
-    @warn "Python executable not found; skipping python validator tests"
 end

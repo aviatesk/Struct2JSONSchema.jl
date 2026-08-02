@@ -4,8 +4,17 @@ using Struct2JSONSchema: SchemaContext, Struct2JSONSchema.simplify_schema,
 using JSON3
 using Dates
 
+include("find_python_validator.jl")
+
+const PYTHON_VALIDATOR_EXECUTABLE = find_python_validator()
+
 function validate_py(schema_path::String, data_path::String)
-    base_cmd = `python3 $(joinpath(@__DIR__, "helpers", "validator.py")) $schema_path $data_path`
+    base_cmd = Cmd([
+        PYTHON_VALIDATOR_EXECUTABLE,
+        joinpath(@__DIR__, "helpers", "validator.py"),
+        schema_path,
+        data_path
+    ])
     output = IOBuffer()
     cmd = pipeline(base_cmd; stdout = output, stderr = output)
     success = true

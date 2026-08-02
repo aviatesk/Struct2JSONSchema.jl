@@ -1,5 +1,6 @@
 using Test
-using Struct2JSONSchema: SchemaContext, generate_schema, override_field!, optional!, auto_optional_nothing!, Struct2JSONSchema.simplify_schema
+using Struct2JSONSchema: SchemaContext, Struct2JSONSchema.simplify_schema,
+    auto_optional_nothing!, generate_schema, optional!, override_field!
 using JSON3
 using Dates
 

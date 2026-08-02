@@ -2,7 +2,6 @@ using Struct2JSONSchema
 using Test
 using Dates
 
-
 @testset "primitive" begin
     include("primitives.jl")
 end
@@ -30,7 +29,6 @@ end
 @testset "edge cases" begin
     include("edge_cases.jl")
 end
-
 
 @testset "end to end" begin
     include("end_to_end.jl")
@@ -68,9 +66,7 @@ end
     include("default_values.jl")
 end
 
-py_exec = Sys.which("python3") !== nothing ? "python3" : Sys.which("python") !== nothing ? "python" : nothing
-
-if py_exec !== nothing
+@static if Sys.which("python3") !== nothing || Sys.which("python") !== nothing
     @testset "python validator" begin
         include("pyvalidtest.jl")
     end
